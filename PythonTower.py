@@ -414,26 +414,26 @@ while DicoVariable['Heros']['Etage']<=100 and running:
 
 ###Attribuer les dégats
 
-            if DicoVariable['Heros']['Vie']>DicoVariable['Heros']['VieMax']:DicoVariable['Heros']['Vie']=DicoVariable['Heros']['VieMax']
-            if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
-            DegatReduit=EffetArmure(ObjetHeros['Armure'][0])
-            if action == False:
-                DicoVariable['Heros']['Vie']-=rd.randint(3,7)-DegatReduit+DicoVariable['Boss']['Force']
-                action = True
-        if DicoVariable['Heros']['Vie']<=0:
-            if 'Plume de Phoenix' in ObjetHeros['Artefact']:
-                ObjetHeros['Artefact'],DicoVariable['Heros']['Vie']=['anneau en cuivre'],DicoVariable['Heros']['VieMax']
-                tpl=police.render('La plume vous a protégé de la mort',(255,255,255))
-                screen.blit(tpl[0],(160,500))
-                pygame.display.update()
-            else:
-                fondu_au_noir()
-                affichageHUD()
-                tpl=police.render(str(DicoVariable['Heros']['Nom'])+' est mort',(255,255,255))
-                screen.blit(tpl[0],(160,500))
-                pygame.display.update()
-                running = False
-                break
+        if DicoVariable['Heros']['Vie']>DicoVariable['Heros']['VieMax']:DicoVariable['Heros']['Vie']=DicoVariable['Heros']['VieMax']
+        if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
+        DegatReduit=EffetArmure(ObjetHeros['Armure'][0])
+        if action == False:
+            DicoVariable['Heros']['Vie']-=rd.randint(3,7)-DegatReduit+DicoVariable['Boss']['Force']
+            action = True
+    if DicoVariable['Heros']['Vie']<=0:
+        if 'Plume de Phoenix' in ObjetHeros['Artefact']:
+            ObjetHeros['Artefact'],DicoVariable['Heros']['Vie']=['anneau en cuivre'],DicoVariable['Heros']['VieMax']
+            tpl=police.render('La plume vous a protégé de la mort',(255,255,255))
+            screen.blit(tpl[0],(160,500))
+            pygame.display.update()
+        else:
+            fondu_au_noir()
+            affichageHUD()
+            tpl=police.render(str(DicoVariable['Heros']['Nom'])+' est mort',(255,255,255))
+            screen.blit(tpl[0],(160,500))
+            pygame.display.update()
+            running = False
+            break
 
 ### Monter D'un étage
 
