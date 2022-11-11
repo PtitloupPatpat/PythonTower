@@ -2,7 +2,7 @@
 
 """Bienvenue sur le jeu Tower en Version 1.2.0"""
 
-####1.3.0:plus d'animation et de plus beau décor (passage au 1920*1080 et refonte des sprites)
+####1.3.0:plus d'animation et de plus beau décor
 #1.4.0:un système de combat intéractif et déplacement du personnage
 
 import sys
@@ -11,7 +11,6 @@ import random as rd
 
 pygame.init()
 
-global DicoVariable
 DicoVariable={
     'Heros':{'Nom':'Heros','Vie':100,'VieMax':100,'Mana':10,'ManaMax':10,'RegenerationMana':1,
         'Etage':1,'EtageObjet':10,'Degat':0,'Niveau':1,'Experience':0,'ExperienceNecessaire':10,'Or':0,
@@ -39,13 +38,15 @@ screen=pygame.display.set_mode(sizescreen)
 police=pygame.freetype.SysFont("Arial",12)
 
 
-background = pygame.image.load("Image tower/Back.PNG")
+background = pygame.image.load("Image tower/BackDetaile.PNG")
 fondunoir = pygame.image.load("Image tower/FonduNoir.PNG")
-heros = pygame.image.load("Image tower/LeHeros.PNG")
+heros = pygame.image.load("Image tower/LeHerosDetaile.png")
+arme = pygame.image.load("Image tower/Objet/image/epee en fer.png")
+armure = pygame.image.load("Image tower/Objet/image/armure en cuir bras baisse.png")
+artefact = pygame.image.load("Image tower/Objet/image/anneau en cuivre.png")
 boss = pygame.image.load("Image tower/"+ListeBoss['Sbire'][rd.randint(0,len(ListeBoss['Sbire'])-1)]+".PNG")
 decor = pygame.image.load("Image tower/Decor/"+ListeDecor[rd.randint(0,len(ListeDecor)-1)]+'.PNG')
 frappe = pygame.image.load('Image tower/frappe.PNG')
-bouledefeu = pygame.image.load('Image tower/boule de feu.PNG')
 hud = pygame.image.load('Image tower/HUD.PNG')
 
 def animation_frapper():
@@ -53,37 +54,72 @@ def animation_frapper():
         screen.blit(background, (0,0))
         screen.blit(decor, (240, 0))
         screen.blit(heros, (25+i*10,205))
+        screen.blit(arme, (25+i*10,205))
+        screen.blit(armure, (25+i*10, 205))
+        screen.blit(artefact, (25+i*10, 205))
         screen.blit(boss, (460+i,110))
         screen.blit(frappe,(500,170))
         pygame.display.flip()
         pygame.time.delay(10)
-    screen.blit(background, (0,0))
-    screen.blit(decor, (240,0))
-    screen.blit(heros, (25,205))
-    screen.blit(boss, (460,110))
+    affichageEcran()
     affichageHUD()
     pygame.display.flip()
     return
 
 def animation_sortdegat():
-    for i in range(1,10):
+    armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras baisse.PNG")
+    for i in range(1,7):
+        heros = pygame.image.load("Image tower/Animation/Sort de degat/"+str(i)+'.png')
         screen.blit(background, (0,0))
         screen.blit(decor, (240,0))
         screen.blit(heros, (25,205))
+        screen.blit(arme, (25, 205))
+        screen.blit(armure, (25, 205))
+        screen.blit(artefact, (25, 205))
         screen.blit(boss, (460+i,110))
-        screen.blit(bouledefeu,(135+i*20,220))
         pygame.display.flip()
-        pygame.time.delay(10)
-    screen.blit(background, (0,0))
-    screen.blit(decor, (240,0))
-    screen.blit(heros, (25,205))
-    screen.blit(boss, (460,110))
+        pygame.time.delay(50)
+        armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras leve.PNG")
+    affichageEcran()
     affichageHUD()
     pygame.display.flip()
     return
 
-def animation_potion():
-    pass
+def animation_potion_Soin():
+    armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras baisse.PNG")
+    for i in range(1, 7):
+        heros = pygame.image.load("Image tower/Animation/AnimationPotionSoin/" + str(i) + '.png')
+        screen.blit(background, (0, 0))
+        screen.blit(decor, (240, 0))
+        screen.blit(heros, (25, 205))
+        screen.blit(arme, (25, 205))
+        screen.blit(armure, (25, 205))
+        screen.blit(artefact, (25, 205))
+        screen.blit(boss, (460 + i, 110))
+        pygame.display.flip()
+        pygame.time.delay(50)
+        armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras leve.PNG")
+    affichageEcran()
+    affichageHUD()
+    pygame.display.flip()
+
+def animation_potion_Mana():
+    armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras baisse.PNG")
+    for i in range(1, 7):
+        heros = pygame.image.load("Image tower/Animation/AnimationPotionMana/" + str(i) + '.png')
+        screen.blit(background, (0, 0))
+        screen.blit(decor, (240, 0))
+        screen.blit(heros, (25, 205))
+        screen.blit(arme, (25, 205))
+        screen.blit(armure, (25, 205))
+        screen.blit(artefact, (25, 205))
+        screen.blit(boss, (460 + i, 110))
+        pygame.display.flip()
+        pygame.time.delay(50)
+        armure = pygame.image.load("Image tower/Objet/Image/" + str(ObjetHeros['Armure'][0]) + " bras leve.PNG")
+    affichageEcran()
+    affichageHUD()
+    pygame.display.flip()
 
 def ConversionVariableImage(Variable,Position):
     ListedeCaractere=list(str(abs(Variable)))
@@ -101,6 +137,9 @@ def affichageEcran():
     screen.blit(background, (0, 0))
     screen.blit(decor, (240, 0))
     screen.blit(heros, (25, 205))
+    screen.blit(arme, (25,205))
+    screen.blit(armure, (25, 205))
+    screen.blit(artefact, (25, 205))
     screen.blit(boss, (460, 110))
     pygame.display.update()
 
@@ -131,6 +170,35 @@ def affichageBullInventaire(curseur):
     screen.blit(inventaire_tpl5[0], (120, 250))
     pygame.display.update()
 
+def ChoixAction():
+    BoxChoix = 1
+    Box = pygame.image.load('Image tower/Animation/ChoixAction/1.PNG')
+    screen.blit (Box,(25,205))
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    for i in (0,0):
+                        BoxChoix-=1
+                        if BoxChoix == 0: BoxChoix = 6
+                        Box = pygame.image.load('Image tower/Animation/ChoixAction/'+str(BoxChoix)+'.PNG')
+                        affichageEcran()
+                        screen.blit(Box, (25, 205))
+                        pygame.display.update()
+                        pygame.time.delay(50)
+                if event.key == pygame.K_d:
+                    for i in (0, 0):
+                        BoxChoix += 1
+                        if BoxChoix == 7: BoxChoix = 1
+                        Box = pygame.image.load('Image tower/Animation/ChoixAction/' + str(BoxChoix) + '.PNG')
+                        affichageEcran()
+                        screen.blit(Box, (25, 205))
+                        pygame.display.update()
+                        pygame.time.delay(50)
+                if event.key == pygame.K_e:
+                    return BoxChoix
 
 def affichageHUD():
     screen.blit(hud,(0,480))
@@ -144,11 +212,11 @@ def affichageHUD():
     ConversionVariableImage(DicoVariable['Heros']['Etage'],(125,510))
     ConversionVariableImage(DicoVariable['Heros']['Niveau'],(125,527))
     ConversionVariableImage(DicoVariable['Heros']['Or'],(125,544))
-    Arme=pygame.image.load('Image tower/Objet/'+ObjetHeros['Arme'][0]+'.PNG')
+    Arme=pygame.image.load('Image tower/Objet/item/'+ObjetHeros['Arme'][0]+'.PNG')
     screen.blit(Arme,(78,489))
-    Armure=pygame.image.load('Image tower/Objet/'+ObjetHeros['Armure'][0]+'.PNG')
+    Armure=pygame.image.load('Image tower/Objet/item/'+ObjetHeros['Armure'][0]+'.PNG')
     screen.blit(Armure,(78,517))
-    Artefact=pygame.image.load('Image tower/Objet/'+ObjetHeros['Artefact'][0]+'.PNG')
+    Artefact=pygame.image.load('Image tower/Objet/item/'+ObjetHeros['Artefact'][0]+'.PNG')
     screen.blit(Artefact,(78,545))
     pygame.display.update()
     
@@ -239,136 +307,133 @@ while DicoVariable['Heros']['Etage']<=100 and running:
     affichageEcran()
     while DicoVariable['Boss']['Vie']>0 and running:
         action=True
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:sys.exit()
-            if event.type == pygame.KEYDOWN:
-
+        Choix = ChoixAction()
 ###Action du joueur
 
 #Frapper
-                if event.key == pygame.K_z and action==True:
-                    DegatBonus=EffetArme(ObjetHeros['Arme'][0],'Attaque Physique')
-                    dice100=rd.randint(1,100)
-                    if dice100<DicoVariable['Heros']['ChanceCoupCritique']:
-                        DegatBonus*=3
-                        screen.blit(police.render('Coup Critique', (255, 255, 255))[0], (155, 500))
-                        pygame.display.update()
-                    DicoVariable['Boss']['Vie']-=rd.randint(10,20)+DegatBonus+DicoVariable['Heros']['BonusForce']
-                    if DicoVariable['Boss']['Vie']<0:DicoVariable['Boss']['Vie']=0
-                    DicoVariable['Heros']['Mana']+=1
-                    if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
-                    animation_frapper()
-                    action = False
+
+        if Choix == 1 and action == True:
+            DegatBonus=EffetArme(ObjetHeros['Arme'][0],'Attaque Physique')
+            dice100=rd.randint(1,100)
+            if dice100<DicoVariable['Heros']['ChanceCoupCritique']:
+                DegatBonus*=3
+                screen.blit(police.render('Coup Critique', (255, 255, 255))[0], (155, 500))
+                pygame.display.update()
+            DicoVariable['Boss']['Vie']-=rd.randint(10,20)+DegatBonus+DicoVariable['Heros']['BonusForce']
+            if DicoVariable['Boss']['Vie']<0:DicoVariable['Boss']['Vie']=0
+            DicoVariable['Heros']['Mana']+=1
+            if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
+            animation_frapper()
+            action = False
 #Utiliser de la magie
-                if event.key == pygame.K_q and action==True:
-                    affichageHUD()
-                    curseur=0
+        if Choix==5 and action==True:
+            affichageHUD()
+            curseur=0
+            affichageBulleSort(curseur)
+            timer=False
+            while timer == False:
+                for spell_event in pygame.event.get():
+                    if spell_event.type == pygame.KEYDOWN:
+                        if spell_event.key == pygame.K_z : curseur -= 1
+                        if spell_event.key == pygame.K_s : curseur += 1
+                        if spell_event.key == pygame.K_e : timer = True
+                        if curseur<=-1:curseur=0
+                        if curseur>=4:curseur=3
                     affichageBulleSort(curseur)
-                    timer=False
-                    while timer == False:
-                        for spell_event in pygame.event.get():
-                            if spell_event.type == pygame.KEYDOWN:
-                                if spell_event.key == pygame.K_z : curseur -= 1
-                                if spell_event.key == pygame.K_s : curseur += 1
-                                if spell_event.key == pygame.K_q : timer = True
-                                if curseur<=-1:curseur=0
-                                if curseur>=4:curseur=3
-                                affichageBulleSort(curseur)
-                    affichageEcran()
-                    affichageHUD()
-                    if curseur==0:
-                        if DicoVariable['Heros']['Mana'] >= 6:
-                            DicoVariable['Heros']['Mana'] -= 6
-                            DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
-                            DicoVariable['Boss']['Vie'] -= rd.randint(90, 110) + DegatBonus
-                            animation_sortdegat()
-                            action=False
-                    if curseur==1:
-                        if DicoVariable['Heros']['Mana'] >= 10:
-                            DicoVariable['Heros']['Mana'] -= 10
-                            DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
-                            DicoVariable['Boss']['Vie'] -= rd.randint(50, 90) + DegatBonus + DicoVariable['Heros']['Puissance']
-                            DicoVariable['Heros']['Vie'] += rd.randint(25, 45)
-                            action = False
-                    if curseur==2:
-                        if DicoVariable['Heros']['Mana'] >= 1:
-                            DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
-                            ManaCost=DicoVariable['Heros']['Mana']
-                            DicoVariable['Boss']['Vie'] -= rd.randint(5*ManaCost,15*ManaCost) + DegatBonus + DicoVariable['Heros']['Puissance']
-                            DicoVariable['Heros']['Vie'] -= rd.randint(ManaCost,2*ManaCost)
-                            DicoVariable['Heros']['Mana']=0
-                            action = False
-                    affichageHUD()
-                    affichageHUD()
-                    if DicoVariable['Boss']['Vie']<0:
-                        DicoVariable['Boss']['Vie']=0
+            if curseur==0:
+                if DicoVariable['Heros']['Mana'] >= 6:
+                    DicoVariable['Heros']['Mana'] -= 6
+                    DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
+                    DicoVariable['Boss']['Vie'] -= rd.randint(90, 110) + DegatBonus
+                    animation_sortdegat()
+                    action=False
+            if curseur==1:
+                if DicoVariable['Heros']['Mana'] >= 10:
+                    DicoVariable['Heros']['Mana'] -= 10
+                    DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
+                    DicoVariable['Boss']['Vie'] -= rd.randint(50, 90) + DegatBonus + DicoVariable['Heros']['Puissance']
+                    DicoVariable['Heros']['Vie'] += rd.randint(25, 45)
+                    action = False
+            if curseur==2:
+                if DicoVariable['Heros']['Mana'] >= 1:
+                    DegatBonus = EffetArme(ObjetHeros['Arme'][0], 'Attaque Magique')
+                    ManaCost=DicoVariable['Heros']['Mana']
+                    DicoVariable['Boss']['Vie'] -= rd.randint(5*ManaCost,15*ManaCost) + DegatBonus + DicoVariable['Heros']['Puissance']
+                    DicoVariable['Heros']['Vie'] -= rd.randint(ManaCost,2*ManaCost)
+                    DicoVariable['Heros']['Mana']=0
+                    action = False
+            affichageHUD()
+            affichageEcran()
+        if DicoVariable['Boss']['Vie']<0:DicoVariable['Boss']['Vie']=0
 #Utiliser son inventaire
-                if event.key == pygame.K_d and action == True:
-                    affichageHUD()
-                    curseur=0
+        if Choix == 3 and action == True:
+            affichageHUD()
+            curseur=0
+            affichageBullInventaire(curseur)
+            inventaire_tpl5=police.render('retour',(255,255,255))
+            timer=False
+            while timer == False:
+                for item_event in pygame.event.get():
+                    if item_event.type == pygame.KEYDOWN:
+                        if item_event.key == pygame.K_z : curseur-=1
+                        if item_event.key == pygame.K_s : curseur+=1
+                        if item_event.key == pygame.K_e : timer=True
+                        if curseur<=-1:curseur=0
+                        if curseur>=4:curseur=3
                     affichageBullInventaire(curseur)
-                    inventaire_tpl5=police.render('retour',(255,255,255))
-                    timer=False
-                    while timer == False:
-                        for item_event in pygame.event.get():
-                            if item_event.type == pygame.KEYDOWN:
-                                if item_event.key == pygame.K_z : curseur-=1
-                                if item_event.key == pygame.K_s : curseur+=1
-                                if item_event.key == pygame.K_d : timer=True
-                                if curseur<=-1:curseur=0
-                                if curseur>=4:curseur=3
-                            affichageBullInventaire(curseur)
-                    if curseur == 2:
-                        if DicoVariable['Heros']['Bombe'] >= 1:
-                            DicoVariable['Heros']['Bombe'] -= 1
-                            DicoVariable['Boss']['Vie'] -= 200
-                            inventaire_tpl5 = police.render('Bombe utilisée', (255, 255, 255))
-                            action = False
-                        else:
-                            inventaire_tpl5 = police.render('pas de Bombe', (255, 255, 255))
-                    if curseur == 0:
-                        if DicoVariable['Heros']['Potion'] >= 1:
-                            DicoVariable['Heros']['Potion'] -= 1
-                            DicoVariable['Heros']['Vie'] += 80
-                            inventaire_tpl5 = police.render('Potion utilisée', (255, 255, 255))
-                            action = False
-                        else:
-                            inventaire_tpl5 = police.render('pas de Potion', (255, 255, 255))
-                    if curseur == 1:
-                        if DicoVariable['Heros']['Fiole'] >= 1:
-                            DicoVariable['Heros']['Fiole'] -= 1
-                            DicoVariable['Heros']['Mana'] += 8
-                            inventaire_tpl5 = police.render('Fiole utilisée', (255, 255, 255))
-                            action = False
-                        else:
-                            inventaire_tpl5 = police.render('pas de Fiole', (255, 255, 255))
-                    affichageEcran()
-                    affichageHUD()
-                    screen.blit(inventaire_tpl5[0],(160,500))
-                    pygame.display.update()
+            if curseur == 2:
+                if DicoVariable['Heros']['Bombe'] >= 1:
+                    DicoVariable['Heros']['Bombe'] -= 1
+                    DicoVariable['Boss']['Vie'] -= 200
+                    inventaire_tpl5 = police.render('Bombe utilisée', (255, 255, 255))
+                    action = False
+                else:
+                    inventaire_tpl5 = police.render('pas de Bombe', (255, 255, 255))
+            if curseur == 0:
+                if DicoVariable['Heros']['Potion'] >= 1:
+                    DicoVariable['Heros']['Potion'] -= 1
+                    DicoVariable['Heros']['Vie'] += 80
+                    animation_potion_Soin()
+                    inventaire_tpl5 = police.render('Potion utilisée', (255, 255, 255))
+                    action = False
+                else:
+                    inventaire_tpl5 = police.render('pas de Potion', (255, 255, 255))
+            if curseur == 1:
+                if DicoVariable['Heros']['Fiole'] >= 1:
+                    DicoVariable['Heros']['Fiole'] -= 1
+                    DicoVariable['Heros']['Mana'] += 8
+                    animation_potion_Mana()
+                    inventaire_tpl5 = police.render('Fiole utilisée', (255, 255, 255))
+                    action = False
+                else:
+                    inventaire_tpl5 = police.render('pas de Fiole', (255, 255, 255))
+            affichageEcran()
+            affichageHUD()
+            screen.blit(inventaire_tpl5[0],(160,500))
+            pygame.display.update()
 
 ###Attribuer les dégats
 
-                if DicoVariable['Heros']['Vie']>DicoVariable['Heros']['VieMax']:DicoVariable['Heros']['Vie']=DicoVariable['Heros']['VieMax']
-                if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
-                DegatReduit=EffetArmure(ObjetHeros['Armure'][0])
-                if action == False:
-                    DicoVariable['Heros']['Vie']-=rd.randint(3,7)-DegatReduit+DicoVariable['Boss']['Force']
-                    action = True
-            if DicoVariable['Heros']['Vie']<=0:
-                if 'Plume de Phoenix' in ObjetHeros['Artefact']:
-                    ObjetHeros['Artefact'],DicoVariable['Heros']['Vie']=['anneau en cuivre'],DicoVariable['Heros']['VieMax']
-                    tpl=police.render('La plume vous a protégé de la mort',(255,255,255))
-                    screen.blit(tpl[0],(160,500))
-                    pygame.display.update()
-                else:
-                    fondu_au_noir()
-                    affichageHUD()
-                    tpl=police.render(str(DicoVariable['Heros']['Nom'])+' est mort',(255,255,255))
-                    screen.blit(tpl[0],(160,500))
-                    pygame.display.update()
-                    running = False
-                    break
+            if DicoVariable['Heros']['Vie']>DicoVariable['Heros']['VieMax']:DicoVariable['Heros']['Vie']=DicoVariable['Heros']['VieMax']
+            if DicoVariable['Heros']['Mana']>DicoVariable['Heros']['ManaMax']:DicoVariable['Heros']['Mana']=DicoVariable['Heros']['ManaMax']
+            DegatReduit=EffetArmure(ObjetHeros['Armure'][0])
+            if action == False:
+                DicoVariable['Heros']['Vie']-=rd.randint(3,7)-DegatReduit+DicoVariable['Boss']['Force']
+                action = True
+        if DicoVariable['Heros']['Vie']<=0:
+            if 'Plume de Phoenix' in ObjetHeros['Artefact']:
+                ObjetHeros['Artefact'],DicoVariable['Heros']['Vie']=['anneau en cuivre'],DicoVariable['Heros']['VieMax']
+                tpl=police.render('La plume vous a protégé de la mort',(255,255,255))
+                screen.blit(tpl[0],(160,500))
+                pygame.display.update()
+            else:
+                fondu_au_noir()
+                affichageHUD()
+                tpl=police.render(str(DicoVariable['Heros']['Nom'])+' est mort',(255,255,255))
+                screen.blit(tpl[0],(160,500))
+                pygame.display.update()
+                running = False
+                break
 
 ### Monter D'un étage
 
@@ -405,9 +470,15 @@ while DicoVariable['Heros']['Etage']<=100 and running:
         while timer == False:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_z:ObjetHeros['Arme']=ListeObjetTrouve['Arme']
-                    if event.key == pygame.K_d:ObjetHeros['Armure']=ListeObjetTrouve['Armure']
-                    if event.key == pygame.K_q:ObjetHeros['Artefact']=ListeObjetTrouve['Artefact']
+                    if event.key == pygame.K_z:
+                        ObjetHeros['Arme']=ListeObjetTrouve['Arme']
+                        arme = pygame.image.load("Image tower/Objet/image/"+str(ObjetHeros['Arme'])+'.png')
+                    if event.key == pygame.K_d:
+                        ObjetHeros['Armure']=ListeObjetTrouve['Armure']
+                        armure = pygame.image.load("Image tower/Objet/image/" + str(ObjetHeros['Armure']) + 'bras baisse.png')
+                    if event.key == pygame.K_q:
+                        ObjetHeros['Artefact']=ListeObjetTrouve['Artefact']
+                        artefact = pygame.image.load("Image tower/Objet/image/" + str(ObjetHeros['Artefact']) + '.png')
                     timer=True
                     affichageHUD()
     if DicoVariable['Heros']['Vie']>DicoVariable['Heros']['VieMax']:DicoVariable['Heros']['Vie']=DicoVariable['Heros']['VieMax']
